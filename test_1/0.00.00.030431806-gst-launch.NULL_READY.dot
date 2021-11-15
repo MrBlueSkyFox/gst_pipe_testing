@@ -1,0 +1,82 @@
+digraph pipeline {
+  rankdir=LR;
+  fontname="sans";
+  fontsize="10";
+  labelloc=t;
+  nodesep=.1;
+  ranksep=.2;
+  label="<GstPipeline>\npipeline0\n[-] -> [=]";
+  node [style="filled,rounded", shape=box, fontsize="9", fontname="sans", margin="0.0,0.0"];
+  edge [labelfontsize="6", fontsize="9", fontname="monospace"];
+  
+  legend [
+    pos="0,0!",
+    margin="0.05,0.05",
+    style="filled",
+    label="Legend\lElement-States: [~] void-pending, [0] null, [-] ready, [=] paused, [>] playing\lPad-Activation: [-] none, [>] push, [<] pull\lPad-Flags: [b]locked, [f]lushing, [b]locking, [E]OS; upper-case is set\lPad-Task: [T] has started task, [t] has paused task\l",
+  ];
+  subgraph cluster_fakesink0_0x55999abcd5f0 {
+    fontname="Bitstream Vera Sans";
+    fontsize="8";
+    style="filled,rounded";
+    color=black;
+    label="GstFakeSink\nfakesink0\n[-]\nparent=(GstPipeline) pipeline0\nsync=FALSE";
+    subgraph cluster_fakesink0_0x55999abcd5f0_sink {
+      label="";
+      style="invis";
+      fakesink0_0x55999abcd5f0_sink_0x55999abc4560 [color=black, fillcolor="#aaaaff", label="sink\n[-][bFb]", height="0.2", style="filled,solid"];
+    }
+
+    fillcolor="#aaaaff";
+  }
+
+  subgraph cluster_decodebin0_0x55999abbc040 {
+    fontname="Bitstream Vera Sans";
+    fontsize="8";
+    style="filled,rounded";
+    color=black;
+    label="GstDecodeBin\ndecodebin0\n[-]\nparent=(GstPipeline) pipeline0\ncaps=video/x-raw(ANY); audio/x-raw(ANY); text/x-raw(ANY); subpicture/x-dvd; subpictur…";
+    subgraph cluster_decodebin0_0x55999abbc040_sink {
+      label="";
+      style="invis";
+      _proxypad0_0x55999abce070 [color=black, fillcolor="#ddddff", label="proxypad0\n[>][bfb]", height="0.2", style="filled,solid"];
+    decodebin0_0x55999abbc040_sink_0x55999abca090 -> _proxypad0_0x55999abce070 [style=dashed, minlen=0]
+      decodebin0_0x55999abbc040_sink_0x55999abca090 [color=black, fillcolor="#ddddff", label="sink\n[>][bfb]", height="0.2", style="filled,solid"];
+    }
+
+    fillcolor="#ffffff";
+    subgraph cluster_typefind_0x55999abb4260 {
+      fontname="Bitstream Vera Sans";
+      fontsize="8";
+      style="filled,rounded";
+      color=black;
+      label="GstTypeFindElement\ntypefind\n[-]\nparent=(GstDecodeBin) decodebin0";
+      subgraph cluster_typefind_0x55999abb4260_sink {
+        label="";
+        style="invis";
+        typefind_0x55999abb4260_sink_0x55999abc40c0 [color=black, fillcolor="#aaaaff", label="sink\n[-][bFb]", height="0.2", style="filled,solid"];
+      }
+
+      subgraph cluster_typefind_0x55999abb4260_src {
+        label="";
+        style="invis";
+        typefind_0x55999abb4260_src_0x55999abc4310 [color=black, fillcolor="#ffaaaa", label="src\n[-][bFb]", height="0.2", style="filled,solid"];
+      }
+
+      typefind_0x55999abb4260_sink_0x55999abc40c0 -> typefind_0x55999abb4260_src_0x55999abc4310 [style="invis"];
+      fillcolor="#aaffaa";
+    }
+
+    _proxypad0_0x55999abce070 -> typefind_0x55999abb4260_sink_0x55999abc40c0 [label="ANY"]
+  }
+
+  subgraph cluster_m_src_0x55999abafc30 {
+    fontname="Bitstream Vera Sans";
+    fontsize="8";
+    style="filled,rounded";
+    color=black;
+    label="GstRTSPSrc\nm_src\n[-]\nparent=(GstPipeline) pipeline0\nlocation=\"rtsp://admin:admin123@192.168.0.108:554\"\nlatency=200\nproxy-id=NULL\nproxy-pw=NULL";
+    fillcolor="#ffffff";
+  }
+
+}
